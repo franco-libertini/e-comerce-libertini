@@ -52,7 +52,7 @@ function showProducts(products) {
 showProducts(products);
 
 
-//carrito
+//agregar carrito
 
 let carrito = [];
 
@@ -71,8 +71,23 @@ function addCart(e) {
     nombre: nombreProducto,
     img: img,
     precio: precio
+    
   };
-
+  let fila = document.createElement("tr");
+    
+  fila.innerHTML = `
+  
+  <tr scope="row">
+  <th scope="col">Precio:</th>
+  <td>${producto.precio}</td>
+  <th scope="col">Producto:</th>
+  <td>${producto.nombre}</td>
+  <th scope="col"></th>
+  </tr> 
+  <td><button class="btn-danger borrarElemento">Borrar</button></td>
+  `;
+  let tabla = document.getElementById("tbody");
+  tabla.append(fila);
   carrito.push(producto);
 
   let arregloJSON = JSON.stringify(carrito);
@@ -83,7 +98,7 @@ function addCart(e) {
     duration: 300,
   }).showToast();
 
-  // carrito-icono
+  // carrito display y borrar
 
 }
 
@@ -92,37 +107,20 @@ function mostrarCarrito() {
 
 
   for (let producto of carrito) {
-    let fila = document.createElement("tr");
     
-    fila.innerHTML = `
     
-    <tr scope="row">
-    <th scope="col">Precio:</th>
-    <td>${producto.precio}</td>
-    <th scope="col">Producto:</th>
-    <td>${producto.nombre}</td>
-    <th scope="col"></th>
-    </tr> 
-    <td><button class="btn-danger borrarElemento">Borrar</button></td>
-    `;
-    let tabla = document.getElementById("tbody");
-    tabla.append(fila);
   }
-  // para mostrar el item con imagen:
-  // <th scope="col"></th>
-  // <td><img src="${producto.img}" class="img-cart"></td>
-
+  
   let botonesBorrar = document.querySelectorAll(".borrarElemento");
   
   for (let boton of botonesBorrar) {
     boton.addEventListener("click", borrarProducto);
   }
   
-
 }
 
 let icon = document.querySelector("#iconCart");
-icon.addEventListener("click", mostrarCarrito);
+icon.addEventListener("click", mostrarCarrito,);
 
 function borrarProducto(e) {
   let abuelo = e.target.parentNode.parentNode;
@@ -135,14 +133,17 @@ function borrarProducto(e) {
 }
 
 
+// checkout
 
 let botoncheckout = document.getElementById("checkout");
 
-function checkoutoperacion(e){
+function checkoutoperacion(){
   const suma=carrito.reduce((prevval,currenval)=>{
     return (Number.parseInt(prevval,10))+(Number.parseInt(currenval.precio,10))
   },0);
   const preciotot=suma;
+
+
   Swal.fire({
     title: 'seguro?',
     text: ('su total es:'+" "+suma+" "+'$'),
