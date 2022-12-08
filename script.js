@@ -80,7 +80,7 @@ function addCart(e) {
 
   Toastify({
     text: "item agregado",
-    duration: 700,
+    duration: 300,
   }).showToast();
 
   // carrito-icono
@@ -97,8 +97,6 @@ function mostrarCarrito() {
     fila.innerHTML = `
     
     <tr scope="row">
-    <th scope="col"></th>
-    <td><img src="${producto.img}" class="img-cart"></td>
     <th scope="col">Precio:</th>
     <td>${producto.precio}</td>
     <th scope="col">Producto:</th>
@@ -110,7 +108,10 @@ function mostrarCarrito() {
     let tabla = document.getElementById("tbody");
     tabla.append(fila);
   }
-  
+  // para mostrar el item con imagen:
+  // <th scope="col"></th>
+  // <td><img src="${producto.img}" class="img-cart"></td>
+
   let botonesBorrar = document.querySelectorAll(".borrarElemento");
   
   for (let boton of botonesBorrar) {
@@ -137,13 +138,32 @@ function borrarProducto(e) {
 
 let botoncheckout = document.getElementById("checkout");
 
-function checkoutoperacion(){
-const suma=carrito.reduce((prevval,currenval)=>{
-  return (Number.parseInt(prevval,10))+(Number.parseInt(currenval.precio,10))
-},0);
-const preciotot=suma;;
-alert('su total es:'+" "+suma+" "+'$');
-};
+function checkoutoperacion(e){
+  const suma=carrito.reduce((prevval,currenval)=>{
+    return (Number.parseInt(prevval,10))+(Number.parseInt(currenval.precio,10))
+  },0);
+  const preciotot=suma;
+  Swal.fire({
+    title: 'seguro?',
+    text: ('su total es:'+" "+suma+" "+'$'),
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'si ,comprar!'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      Swal.fire(
+        'carrito comprado!',
+        
+      )
+      setTimeout(function(){
+        window.location.reload();
+     }, 1500);
+    }
+  })
+return
+}
 
 
 checkout.addEventListener("click", checkoutoperacion);
