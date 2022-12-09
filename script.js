@@ -1,5 +1,3 @@
-
-
 //PRODUCTOS
 
 let products = [];
@@ -16,8 +14,7 @@ let getProduct = async () => {
     for (let boton of btnCompra) {
       boton.addEventListener("click", addCart);
     }
-  } 
-  catch (error) {
+  } catch (error) {
     console.log(error)
   }
 }
@@ -71,10 +68,10 @@ function addCart(e) {
     nombre: nombreProducto,
     img: img,
     precio: precio
-    
+
   };
   let fila = document.createElement("tr");
-    
+
   fila.innerHTML = `
   
   <tr scope="row">
@@ -84,7 +81,7 @@ function addCart(e) {
   <td>${producto.nombre}</td>
   <th scope="col"></th>
   </tr> 
-  <td><button class="btn-danger borrarElemento">Borrar</button></td>
+  <td><button id="borrarElemento" class="btn-danger" data-producto="${producto.nombre}">Borrar</button></td>
   `;
   let tabla = document.getElementById("tbody");
   tabla.append(fila);
@@ -103,32 +100,36 @@ function addCart(e) {
 }
 
 function mostrarCarrito() {
-  console.log(carrito)
+  // console.log(carrito)
 
 
   for (let producto of carrito) {
-    
-    
+
+
   }
-  
-  let botonesBorrar = document.querySelectorAll(".borrarElemento");
-  
+
+  let botonesBorrar = document.querySelectorAll("#borrarElemento");
+
   for (let boton of botonesBorrar) {
     boton.addEventListener("click", borrarProducto);
   }
-  
+
 }
 
 let icon = document.querySelector("#iconCart");
-icon.addEventListener("click", mostrarCarrito,);
+icon.addEventListener("click", mostrarCarrito);
 
-function borrarProducto(e) {
+function borrarProducto(e) {  
+  if (e.target.id === "borrarElemento") {
+    const elementoAEliminar = carrito.find(i => i.nombre === e.target.dataset.producto);
+    const arrayFiltrado = carrito.filter((item) => item !== elementoAEliminar);
+    carrito = arrayFiltrado;    
+  };
   let abuelo = e.target.parentNode.parentNode;
   abuelo.remove();
   Toastify({
     text: "Producto eliminado",
     duration: 700,
-    
   }).showToast();
 }
 
@@ -137,16 +138,16 @@ function borrarProducto(e) {
 
 let botoncheckout = document.getElementById("checkout");
 
-function checkoutoperacion(){
-  const suma=carrito.reduce((prevval,currenval)=>{
-    return (Number.parseInt(prevval,10))+(Number.parseInt(currenval.precio,10))
-  },0);
-  const preciotot=suma;
+function checkoutoperacion() {
+  const suma = carrito.reduce((prevval, currenval) => {
+    return (Number.parseInt(prevval, 10)) + (Number.parseInt(currenval.precio, 10))
+  }, 0);
+  const preciotot = suma;
 
 
   Swal.fire({
     title: 'seguro?',
-    text: ('su total es:'+" "+suma+" "+'$'),
+    text: ('su total es:' + " " + suma + " " + '$'),
     icon: 'warning',
     showCancelButton: true,
     confirmButtonColor: '#3085d6',
@@ -156,14 +157,14 @@ function checkoutoperacion(){
     if (result.isConfirmed) {
       Swal.fire(
         'carrito comprado!',
-        
+
       )
-      setTimeout(function(){
+      setTimeout(function () {
         window.location.reload();
-     }, 1500);
+      }, 1500);
     }
   })
-return
+  return
 }
 
 
@@ -190,42 +191,38 @@ search.addEventListener("keyup", (e) => {
 
 // filtros
 
- let women = document.querySelector(".women");
- women.addEventListener("click", (e) => {
-   e.preventDefault()
+let women = document.querySelector(".women");
+women.addEventListener("click", (e) => {
+  e.preventDefault()
 
-   let productFilter = products.filter(product => product.category === "women's clothing")
+  let productFilter = products.filter(product => product.category === "women's clothing")
 
-   showProducts(productFilter);
- }
- )
+  showProducts(productFilter);
+})
 
- let mens = document.querySelector(".men");
- mens.addEventListener("click", (e) => {
-   e.preventDefault()
+let mens = document.querySelector(".men");
+mens.addEventListener("click", (e) => {
+  e.preventDefault()
 
-   let productFilter = products.filter(product => product.category === "men's clothing")
+  let productFilter = products.filter(product => product.category === "men's clothing")
 
-   showProducts(productFilter);
- }
- )
+  showProducts(productFilter);
+})
 
- let tech = document.querySelector(".tech");
- tech.addEventListener("click", (e) => {
-   e.preventDefault()
+let tech = document.querySelector(".tech");
+tech.addEventListener("click", (e) => {
+  e.preventDefault()
 
-   let productFilter = products.filter(product => product.category === "electronics")
+  let productFilter = products.filter(product => product.category === "electronics")
 
-   showProducts(productFilter);
- }
- )
+  showProducts(productFilter);
+})
 
- let jewelery = document.querySelector(".jewelery");
- jewelery.addEventListener("click", (e) => {
-   e.preventDefault()
+let jewelery = document.querySelector(".jewelery");
+jewelery.addEventListener("click", (e) => {
+  e.preventDefault()
 
-   let productFilter = products.filter(product => product.category === "jewelery")
+  let productFilter = products.filter(product => product.category === "jewelery")
 
-   showProducts(productFilter);
- }
- )
+  showProducts(productFilter);
+})
