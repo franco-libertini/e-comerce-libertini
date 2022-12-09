@@ -79,7 +79,7 @@ function addCart(e) {
   
   <tr scope="row">
   <th scope="col">Precio:</th>
-  <td>${producto.precio}</td>
+  <td class="test">${producto.precio}</td>
   <th scope="col">Producto:</th>
   <td>${producto.nombre}</td>
   <th scope="col"></th>
@@ -104,12 +104,6 @@ function addCart(e) {
 
 function mostrarCarrito() {
   console.log(carrito)
-
-
-  for (let producto of carrito) {
-    
-    
-  }
   
   let botonesBorrar = document.querySelectorAll(".borrarElemento");
   
@@ -124,7 +118,13 @@ icon.addEventListener("click", mostrarCarrito,);
 
 function borrarProducto(e) {
   let abuelo = e.target.parentNode.parentNode;
+
   abuelo.remove();
+
+  // carrito.pop();  
+  
+
+  
   Toastify({
     text: "Producto eliminado",
     duration: 700,
@@ -139,7 +139,7 @@ let botoncheckout = document.getElementById("checkout");
 
 function checkoutoperacion(){
   const suma=carrito.reduce((prevval,currenval)=>{
-    return (Number.parseInt(prevval,10))+(Number.parseInt(currenval.precio,10))
+    return (Number.parseInt(prevval))+(Number.parseInt(currenval.precio))
   },0);
   const preciotot=suma;
 
@@ -156,7 +156,7 @@ function checkoutoperacion(){
     if (result.isConfirmed) {
       Swal.fire(
         'carrito comprado!',
-        
+        console.log('$'+preciotot)
       )
       setTimeout(function(){
         window.location.reload();
